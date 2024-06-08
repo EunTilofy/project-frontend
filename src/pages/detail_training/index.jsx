@@ -185,9 +185,6 @@ export default function DetailTraining() {
           <>
             <Button className="apply" size="mini" onClick={() => console.log('Apply')}>训练报名</Button>
             <Button className="cancel" size="mini" onClick={() => console.log('Cancel')}>取消报名</Button>
-            <Button className="leave" size="mini" onClick={() => console.log('Leave')}>
-              <Image className="icon" src="../../images/icon/healthy-recognition.png" />
-            </Button>
           </>
         )}
       </View>

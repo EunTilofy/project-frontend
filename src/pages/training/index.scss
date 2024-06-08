@@ -1,9 +1,10 @@
 .container {
   min-height: 100vh;
+  width: 100vw;
 }
 
 .container .title-head {
-  width: 100%;
+  width: 100vw;
   display: flex;
   align-items: center;
 }
@@ -28,6 +29,7 @@
 }
 
 .container .title-head .search-bar .input {
+  width: 70vw;
   height: 20rpx;
   background-color: #ffffff;
   border-top-left-radius: 30rpx;
@@ -49,7 +51,7 @@
 }
 
 .container .card {
-  width: 90%;
+  width: 90vw;
   border-radius: 20rpx;
   background-color: #ffffff;
   padding: 30rpx 0;
@@ -102,6 +104,7 @@
 }
 
 .container .card .surface-plot {
-  width: 100%;
-  margin: 20rpx 0;
+  width: 90vw;
+  margin-left: 5vw;
+  border-radius: 15rpx;
 }
