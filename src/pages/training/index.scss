@@ -1,0 +1,107 @@
+.container {
+  min-height: 100vh;
+}
+
+.container .title-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.container .title-head .search-bar {
+  display: flex;
+  flex: 1;
+}
+
+.container .title-head .search-bar .icon-box {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  border-top-right-radius: 30rpx;
+  border-bottom-right-radius: 30rpx;
+}
+
+.container .title-head .search-bar .icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 26rpx;
+}
+
+.container .title-head .search-bar .input {
+  height: 20rpx;
+  background-color: #ffffff;
+  border-top-left-radius: 30rpx;
+  border-bottom-left-radius: 30rpx;
+  padding: 10rpx 30rpx;
+  margin-left: 40rpx;
+}
+
+.container .title-head .add {
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 40rpx;
+}
+
+.container .title-head .add .icon {
+  width: 42rpx;
+  height: 42rpx;
+  margin-left: 20rpx;
+}
+
+.container .card {
+  width: 90%;
+  border-radius: 20rpx;
+  background-color: #ffffff;
+  padding: 30rpx 0;
+  margin: 26rpx 0;
+}
+
+.container .card .item {
+  display: flex;
+  align-items: center;
+  padding-right: 40rpx;
+  padding-left: 40rpx;
+  margin: 0 0 12rpx 0;
+}
+
+.container .card .head {
+  justify-content: space-around;
+}
+
+.container .card .head .tag {
+  font-size: 24rpx;
+  padding: 5rpx 14rpx;
+  border-radius: 5rpx;
+  margin-left: 10rpx;
+}
+
+.container .card .head .training {
+  background-color: #fff7e8;
+  color: #ff7d00;
+}
+
+.container .card .head .not-start {
+  background-color: #f2f3f5;
+  color: #4e5969;
+}
+
+.container .card .head .processing {
+  background-color: #e8ffea;
+  color: #00b42a;
+}
+
+.container .card .head .end {
+  background-color: #ffece8;
+  color: #f53f3f;
+}
+
+.container .card .item .icon {
+  height: 24rpx;
+  width: 24rpx;
+  margin-right: 24rpx;
+}
+
+.container .card .surface-plot {
+  width: 100%;
+  margin: 20rpx 0;
+}
