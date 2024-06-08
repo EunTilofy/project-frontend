@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, Image, Map, Button, Textarea } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import './index.scss';
@@ -8,68 +8,35 @@ const userInfo = {
   level: 2,
 };
 
-const trainingList = [
-  {
-    _id: '1',
-    date: '2024-06-05',
-    start_time: '08:00',
-    end_time: '10:00',
-    place: { name: '体育场' },
-    price: 20,
-    description: '早晨的训练活动',
-    status: 'notStart',
-    participant: [
-      {
-        userInfo: { gender: 0, nickName: 'Tom', level: 'A' },
-        submitTime: '2024-06-01 08:00',
-      },
-      {
-        userInfo: { gender: 1, nickName: 'Lucy', level: 'B' },
-        submitTime: '2024-06-01 09:00',
-      },
-    ],
-    feedback: [
-      {
-        name: 'Alice',
-        time: '2024-06-02 10:00',
-        content: 'Great training!',
-        key: '1',
-        id: '123',
-      },
-    ],
-    open_flag: true,
-  },
-  {
-    _id: '2',
-    date: '2024-06-06',
-    start_time: '14:00',
-    end_time: '16:00',
-    place: { name: '健身房' },
-    price: 50,
-    description: '特别的训练活动',
-    status: 'processing',
-    participant: [
-      {
-        userInfo: { gender: 0, nickName: 'Jack', level: 'A' },
-        submitTime: '2024-06-01 10:00',
-      },
-      {
-        userInfo: { gender: 1, nickName: 'Lily', level: 'B' },
-        submitTime: '2024-06-01 11:00',
-      },
-    ],
-    feedback: [
-      {
-        name: 'Bob',
-        time: '2024-06-03 10:00',
-        content: 'Excellent session!',
-        key: '2',
-        id: '124',
-      },
-    ],
-    open_flag: true,
-  },
-];
+const training = {
+  date: '2024-06-05',
+  start_time: '08:00',
+  end_time: '10:00',
+  place: { name: '体育场' },
+  price: 20,
+  description: '早晨的训练活动',
+  status: 'notStart',
+  participant: [
+    {
+      userInfo: { gender: 0, nickName: 'Tom', level: 'A' },
+      submitTime: '2024-06-01 08:00',
+    },
+    {
+      userInfo: { gender: 1, nickName: 'Lucy', level: 'B' },
+      submitTime: '2024-06-01 09:00',
+    },
+  ],
+  feedback: [
+    {
+      name: 'Alice',
+      time: '2024-06-02 10:00',
+      content: 'Great training!',
+      key: '1',
+      id: '123',
+    },
+  ],
+  open_flag: true,
+};
 
 const markers = [
   {
@@ -83,13 +50,7 @@ const markers = [
 
 export default function DetailTraining() {
   const router = useRouter();
-  const { id } = router.params;
-  const [training, setTraining] = useState({});
-
-  useEffect(() => {
-    const currentTraining = trainingList.find(t => t._id === id);
-    setTraining(currentTraining);
-  }, [id]);
+  const { id, open_flag } = router.params;
 
   return (
     <View className="container" style={{ paddingBottom: userInfo.level ? '0' : '100rpx' }}>
@@ -114,35 +75,35 @@ export default function DetailTraining() {
       <View className="card">
         <View className="date item weak">
           <Image className="icon" src="../../images/icon/date.png" />
-          {training?.date}
+          {training.date}
           <View className="placeholder"></View>
-          {training?.status === 'notStart' && <View className="tag not-start">未开始</View>}
-          {training?.status === 'processing' && <View className="tag processing">进行中</View>}
-          {training?.status === 'end' && <View className="tag end">已结束</View>}
+          {training.status === 'notStart' && <View className="tag not-start">未开始</View>}
+          {training.status === 'processing' && <View className="tag processing">进行中</View>}
+          {training.status === 'end' && <View className="tag end">已结束</View>}
         </View>
         <View className="time item weak">
           <Image className="icon" src="../../images/icon/time.png" />
-          {`${training?.start_time}:00 - ${training?.end_time}:00`}
+          {`${training.start_time}:00 - ${training.end_time}:00`}
         </View>
         <View className="location item weak">
           <Image className="icon" src="../../images/icon/location.png" />
-          {training?.place?.name}
+          {training.place.name}
         </View>
         <View className="fee item weak">
           <Image className="icon" src="../../images/icon/fee.png" />
-          {training?.price}元/人
+          {training.price}元/人
         </View>
         <View className="desc item weak" style={{ alignItems: 'flex-start' }}>
           <Image style={{ marginTop: '5rpx' }} className="icon" src="../../images/icon/desc.png" />
-          <View style={{ width: 'calc(100% - 50rpx)' }}>{training?.description || '-'}</View>
+          <View style={{ width: 'calc(100% - 50rpx)' }}>{training.description || '-'}</View>
         </View>
       </View>
-      <View className="title">- 参训人员 ({training?.participant?.length || 0})</View>
+      <View className="title">- 参训人员 ({training.participant.length})</View>
       <View className="card">
-        {training?.participant?.length < 1 ? (
+        {training.participant.length < 1 ? (
           <View style={{ justifyContent: 'center' }} className="item weak">暂无</View>
         ) : (
-          training?.participant.map((person, index) => (
+          training.participant.map((person, index) => (
             <View key={index} className="person item weak">
               <Image className="avatar" src={person.userInfo.gender === 0 ? '../../images/icon/male.png' : '../../images/icon/female.png'} />
               <View style={{ width: '120rpx' }} className="ellipsis">{person.userInfo.nickName}</View>
@@ -171,10 +132,11 @@ export default function DetailTraining() {
         ）
       </View>
       <View className="card">
-        {training?.participant?.length < 1 ? (
+        {training.participant.length < 1 ? (
           <View style={{ justifyContent: 'center' }} className="item weak">暂无</View>
         ) : (
-          training?.participant.map((person, index) => (
+          // Assume `group` is part of `training` data structure.
+          training.participant.map((person, index) => (
             <View key={index} className="group">
               <View className="person item weak">
                 <Image className="avatar" src={person.userInfo.gender === 0 ? '../../images/icon/male.png' : '../../images/icon/female.png'} />
@@ -189,10 +151,10 @@ export default function DetailTraining() {
       </View>
       <View className="title">- 训练反馈</View>
       <View className="card">
-        {training?.feedback?.length < 1 ? (
+        {training.feedback.length < 1 ? (
           <View style={{ justifyContent: 'center' }} className="item weak">暂无</View>
         ) : (
-          training?.feedback.map((feedback, index) => (
+          training.feedback.map((feedback, index) => (
             <View key={index} className="group">
               <View className="comment item weak">
                 <View className="head">
@@ -217,9 +179,9 @@ export default function DetailTraining() {
           ))
         )}
       </View>
-      <View className="option" style={{ display: userInfo.level || training?.open_flag ? 'flex' : 'none' }}>
+      <View className="option" style={{ display: userInfo.level || training.open_flag ? 'flex' : 'none' }}>
         <Button className="feedback" size="mini" onClick={() => console.log('Feedback')}>训练反馈</Button>
-        {training?.status === 'notStart' && (
+        {training.status === 'notStart' && (
           <>
             <Button className="apply" size="mini" onClick={() => console.log('Apply')}>训练报名</Button>
             <Button className="cancel" size="mini" onClick={() => console.log('Cancel')}>取消报名</Button>

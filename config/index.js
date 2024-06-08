@@ -22,6 +22,7 @@ export default defineConfig(async (merge, { command, mode }) => {
     },
     copy: {
       patterns: [
+        { from: 'src/images/', to: 'dist/images/' } // 添加这一行
       ],
       options: {
       }
