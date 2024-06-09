@@ -1,0 +1,52 @@
+.container {
+  min-height: 100vh;
+}
+.container .attendance .statistic .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20rpx 0;
+}
+.container .attendance .statistic .item {
+  width: 240rpx;
+  border-radius: 20rpx;
+  background-color: #ffffff;
+  margin: 0 20rpx;
+  padding: 30rpx 40rpx;
+}
+.container .attendance .info {
+  margin-top: 40rpx;
+  padding-left: 20rpx;
+}
+
+.container .leave-content {
+  margin-top: 60rpx;
+}
+
+.container .leave-content .title .text {
+  margin-left: 20rpx;
+}
+
+.container .leave-content .leave {
+  border-radius: 20rpx;
+  background-color: #ffffff;
+  padding: 20rpx 40rpx;
+  margin: 20rpx 0;
+}
+
+.container .leave-content .title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 0;
+  margin-right: 20rpx;
+  margin: 0 20rpx 10rpx 0;
+}
+
+.container .leave-content .card .item {
+  display: flex;
+  align-items: center;
+  padding-right: 40rpx;
+  padding-left: 40rpx;
+  margin: 0 0 12rpx 0;
+}

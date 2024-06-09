@@ -1,12 +1,13 @@
 export default defineAppConfig({
   pages: [
     'pages/training/index',
-    'pages/activity/index',
     'pages/center/index',
     'pages/club/index',
-    'pages/game/index',
     'pages/add_training/index',
     'pages/detail_training/index',
+    'pages/user_detail/index',
+    'pages/manage/index',
+    'pages/attendance/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -25,12 +26,12 @@ export default defineAppConfig({
         "pagePath": "pages/training/index",
         "text": "训练"
       },
-      {
-        "selectedIconPath": "images/icon/competition-selected.png",
-        "iconPath": "images/icon/competition.png",
-        "pagePath": "pages/game/index",
-        "text": "赛事"
-      },
+      // {
+      //   "selectedIconPath": "images/icon/competition-selected.png",
+      //   "iconPath": "images/icon/competition.png",
+      //   "pagePath": "pages/game/index",
+      //   "text": "赛事"
+      // },
       {
         "selectedIconPath": "images/icon/career-selected.png",
         "iconPath": "images/icon/career.png",
