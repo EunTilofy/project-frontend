@@ -1,5 +1,6 @@
 import { View, Image, Text } from '@tarojs/components'
 import { useLoad, navigateTo } from '@tarojs/taro'
+import React, { useEffect, useState } from 'react';
 import './index.scss'
 import Taro from '@tarojs/taro';
 
@@ -11,6 +12,16 @@ export default function Center() {
     level: 'A',
     isAdmin: true
   };
+
+  const [isAdmin, setisAdmin] = useState(false);
+
+  useEffect(() => {
+    const userR = (Taro.getStorageSync('userRole') === 0);
+    console.log(userR);
+    if (userR) {
+      setisAdmin(userR);
+    }
+  }, []);
 
   useLoad(() => {
     console.log('Page loaded.')
@@ -68,11 +79,11 @@ export default function Center() {
             {userInfo.level === 'A' && <View className="tag">正式队员</View>}
             {userInfo.level === 'B' && <View className="tag">跟训队员</View>}
             {userInfo.level !== 'A' && userInfo.level !== 'B' && <View className="tag">游客</View>}
-            {userInfo.isAdmin && <View className="tag">管理员</View>}
+            {isAdmin === true && <View className="tag">管理员</View>}
           </View>
         </View>
         <View className="split-line"></View>
-        {userInfo.isAdmin ? (
+        {isAdmin === true ? (
           <View className="menu">
             <View className="row">
               <View className="item" onClick={navigateToUserDetail}>

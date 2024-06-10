@@ -1,5 +1,7 @@
 import { View, Text, Image, Button, Picker } from '@tarojs/components'
 import { useLoad } from '@tarojs/taro'
+import React, { useEffect, useState } from 'react';
+import Taro from '@tarojs/taro';
 import './index.scss'
 
 export default function Manage() {
@@ -49,11 +51,23 @@ export default function Manage() {
     console.log(`Sort mode index: ${e.detail.value}`);
   }
 
+  const [isAdmin, setisAdmin] = useState(0);
+
+  useEffect(() => {
+    const userR = (Taro.getStorageSync('userRole') === 0);
+    console.log(userR);
+    if (userR) {
+      setisAdmin(userR);
+    }
+  }, []);
+
   useLoad(() => {
     console.log('Page loaded.')
   })
 
   return (
+    <View>
+    { isAdmin === true && (
     <View className='container'>
       <View className='item'>
         <View className='title'>
@@ -127,6 +141,7 @@ export default function Manage() {
           </View>
         )}
       </View>
+    </View>)}
     </View>
   )
 }
