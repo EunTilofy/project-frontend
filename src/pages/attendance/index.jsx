@@ -9,10 +9,57 @@ export default function Attendance() {
     startDate: '2024-1-1',
     endDate: '2024-1-2'
   });
-  const [leaveApplication, setLeaveApplication] = useState([]);
-  const [userList, setUserList] = useState([]);
+  // const [leaveApplication, setLeaveApplication] = useState([]);
+  // const [userList, setUserList] = useState([]);
   const [collectStartTime, setCollectStartTime] = useState('');
   const [collectEndTime, setCollectEndTime] = useState('');
+
+  const leaveApplication = [
+    {
+      userInfo: {
+        nickName: 'Name1',
+        gender: 0,
+      },
+      trainingInfo: {
+        title: 'Training 1',
+      },
+      reason: 'xxxxxxx',
+      time: '2024-06-10',
+    },
+    {
+      userInfo: {
+        nickName: 'Name2',
+        gender: 1,
+      },
+      trainingInfo: {
+        title: 'Training 1',
+      },
+      reason: 'xxxxxxx',
+      time: '2024-06-11',
+    }
+  ];
+
+  const userList = [
+    {
+      userInfo: {
+        nickName: 'Name1',
+        realName: 'RealName1',
+        gender: 0,
+      },
+      totalCount: 20,
+      baseParticipantCount: 18,
+      extraParticipantCount: 2,
+      leaveCount: 1,
+      ratio: 90,
+      leave: [
+        {
+          training: 'Training 1',
+          apply_time: '2024-06-10',
+          reason: 'xxxxxxxxx',
+        },
+      ],
+    },
+  ];
 
   useLoad(() => {
     console.log('Page loaded.')
@@ -88,7 +135,7 @@ export default function Attendance() {
             </View>
           </View>
         ))}
-        {leaveApplication.length <= 0 && (
+        {leaveApplication.length < 0 && (
           <View className='card' style={{ paddingLeft: '20rpx' }}>
             <View className='apply-content weak'>暂无</View>
           </View>
