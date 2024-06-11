@@ -119,7 +119,7 @@ export default function Training() {
           </View>
           <View className="date item weak">
             <Image className="icon" src="/images/icon/date.png" />
-            <Text decode="true">{`${new Date(training.StartTime).toLocaleDateString()} ${new Date(training.StartTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${new Date(training.EndTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</Text>
+            <Text decode="true">{`${new Date(training.StartTime).toLocaleDateString()} ${new Date(training.StartTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} - ${new Date(training.EndTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}`}</Text>
           </View>
           <View className="desc item weak" style={{ alignItems: 'flex-start' }}>
             <Image style={{ marginTop: '5rpx' }} className="icon" src="/images/icon/desc.png" />
