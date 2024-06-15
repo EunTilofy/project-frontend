@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Input, Button } from '@tarojs/components';
-import Taro, { usePullDownRefresh } from '@tarojs/taro';
+import Taro, { usePullDownRefresh, useDidShow } from '@tarojs/taro';
 import './index.scss';
 
 export default function Training() {
@@ -69,8 +69,23 @@ export default function Training() {
     const userRole = Taro.getStorageSync('userRole');
     setIsAdmin(userRole === 0);
     console.log('isAdmin: ', userRole == 0);
-    fetchTrainingList(pageNo);
+    fetchTrainingList(pageNo, true);
+
+    if (Taro.getStorageSync('needRefresh')) {
+      setPageNo(1);
+      fetchTrainingList(pageNo, true);
+      Taro.removeStorageSync('needRefresh');
+    }
   }, []);
+
+  useDidShow(() => {
+    const needRefresh = Taro.getStorageSync('needRefresh');
+    if (needRefresh) {
+      setPageNo(1); 
+      fetchTrainingList(1, true); 
+      Taro.removeStorageSync('needRefresh'); 
+    }
+  });
 
   const loadMore = () => {
     const nextPage = pageNo + 1;
@@ -79,7 +94,7 @@ export default function Training() {
   };
 
   const onPullDownRefresh = () => {
-    setPageNo(1);
+    setPageNo(1, true);
     fetchTrainingList(1, true);
   };
 

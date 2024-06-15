@@ -50,18 +50,20 @@ export default function AddTraining() {
 
   const navigateBack = () => {
     console.log('Navigate back');
+    Taro.switchTab({url: '/pages/training/index'});
   };
 
   const submit = () => {
-    // 合并日期和时间
-    const startDateTime = new Date(`${date}T${startTime}:00Z`).toISOString();
-    const endDateTime = new Date(`${date}T${endTime}:00Z`).toISOString();
-
+    const convertToBeijingTime = (date, time) => {
+      const localDateTime = new Date(`${date}T${time}:00+08:00`);
+      return localDateTime.toISOString();
+    };
+    
     const requestData = {
       name: name,
       description: description,
-      start_time: startDateTime,
-      end_time: endDateTime
+      start_time: convertToBeijingTime(date, startTime),
+      end_time: convertToBeijingTime(date, endTime)
     };
 
     const token = Taro.getStorageSync('token');
@@ -77,9 +79,30 @@ export default function AddTraining() {
       },
       success(response) {
         console.log('Request Success', response.data);
+        if(response.data.code === 0)
+        {
+          Taro.showToast({
+            title: '添加训练成功',
+            icon: 'success', 
+            duration: 2000
+          });
+          Taro.setStorageSync('needRefresh', true);
+          Taro.switchTab({url: '/pages/training/index'});
+        } else {
+          Taro.showToast({
+            title: '添加训练失败',
+            icon: 'none', 
+            duration: 2000
+          });
+        }
       },
       fail(error) {
         console.log('Request Failure', error);
+        Taro.showToast({
+          title: '添加训练失败',
+          icon: 'none', 
+          duration: 2000
+        });
       }
     });
   };

@@ -5,26 +5,42 @@ import './index.scss'
 import Taro from '@tarojs/taro';
 
 export default function Center() {
-  const userInfo = {
-    avatar: '../../images/16.jpg',
-    nickName: 'EunTilofy',
-    no: 1,
-    level: 'A',
-    isAdmin: true
-  };
+  const [userInfo, setUserInfo] = useState({
+    avatar: '../../images/grey.png',
+    nickName: '',
+    gender: 2,
+    phone: '',
+    email: '',
+    role: '',
+  });
 
   const [isAdmin, setisAdmin] = useState(false);
 
-  useEffect(() => {
+  useLoad(() => {
+    console.log('Page loaded.');
     const userR = (Taro.getStorageSync('userRole') === 0);
     console.log(userR);
     if (userR) {
       setisAdmin(userR);
     }
-  }, []);
-
-  useLoad(() => {
-    console.log('Page loaded.')
+    const token = Taro.getStorageSync('token');
+    Taro.request({
+      url: 'https://9bh279vn9856.vicp.fun/api/user/getInfo',
+      method: 'POST',
+      header: { Authorization : token, },
+      success(response){
+        console.log('get info ok', response.data);
+        setUserInfo({ ...userInfo, 
+          avatar : response.data.result.avatar === '' ? '../../images/grey.png' : response.data.result.avatar,
+          nickName: response.data.result.nickname,
+          gender: response.data.result.gender,
+          phone: response.data.result.phone_number,
+          email: response.data.result.email,
+          role: response.data.result.role,
+        });
+      },
+      fail(err){console.log('Fail to get info', err);}
+    });
   })
 
   const navigateToUserDetail = () => {
@@ -46,12 +62,34 @@ export default function Center() {
   }
 
   const applyMembership = () => {
-    console.log('Apply for membership')
+    console.log('Apply for membership');
+    const token = Taro.getStorageSync('token');
+    Taro.request({
+      url: 'https://9bh279vn9856.vicp.fun/api/team/apply',
+      method: 'POST',
+      header: { Authorization : token, },
+      success(response){
+        console.log('apply ok', response.data);
+        Taro.showToast({
+          title: '已成功提交申请',
+          icon: 'success', // 使用成功图标
+          duration: 2000 // 持续时间为2000毫秒
+        });
+      },
+      fail(err){
+        console.log('Fail apply', err);
+        Taro.showToast({
+          title: '申请失败', // 提示内容
+          icon: 'none', // 不使用图标
+          duration: 2000 // 持续时间为2000毫秒
+        });
+      }
+    });
   }
 
-  const applyFollowship = () => {
-    console.log('Apply for followship')
-  }
+  // const applyFollowship = () => {
+  //   console.log('Apply for followship')
+  // }
 
   return (
     <View className="container">
@@ -75,10 +113,10 @@ export default function Center() {
           <View className="name">{userInfo.nickName}</View>
           <View className="club weak">浙江大学HawkSoar飞盘队</View>
           <View className="tags">
-            {userInfo.no >= 0 && <View className="tag">{userInfo.no}</View>}
-            {userInfo.level === 'A' && <View className="tag">正式队员</View>}
-            {userInfo.level === 'B' && <View className="tag">跟训队员</View>}
-            {userInfo.level !== 'A' && userInfo.level !== 'B' && <View className="tag">游客</View>}
+            {/* {userInfo.no >= 0 && <View className="tag">{userInfo.no}</View>} */}
+            {(userInfo.role === 'admin' || userInfo.role === 'member') && <View className="tag">正式队员</View>}
+            {/* {userInfo.level === 'B' && <View className="tag">跟训队员</View>} */}
+            {(userInfo.role !== 'admin' && userInfo.role !== 'member') && <View className="tag">游客</View>}
             {isAdmin === true && <View className="tag">管理员</View>}
           </View>
         </View>
@@ -110,7 +148,7 @@ export default function Center() {
                 <Image className="icon" src="../../images/icon/edit-name.png" />
                 <View className="text">个人信息</View>
               </View>
-              {userInfo.level !== 'A' && (
+              {userInfo.role !== 'member' && (
                 <View className="item" onClick={applyMembership}>
                   <Image className="icon" src="../../images/icon/upgrade.png" />
                   <View className="text">入队申请</View>
@@ -120,7 +158,7 @@ export default function Center() {
                 <View className="item" style={{ backgroundColor: '#ffffff' }}></View>
               )}
             </View>
-            <View className="row">
+            {/* <View className="row">
               {userInfo.level !== 'A' && userInfo.level !== 'B' && (
                 <View className="item" onClick={applyFollowship}>
                   <Image className="icon" src="../../images/icon/upgrade.png" />
@@ -130,7 +168,7 @@ export default function Center() {
               {userInfo.level !== 'A' && userInfo.level !== 'B' && (
                 <View className="item" style={{ backgroundColor: '#ffffff' }}></View>
               )}
-            </View>
+            </View> */}
           </View>
         )}
       </View>

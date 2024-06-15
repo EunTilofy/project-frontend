@@ -1,58 +1,93 @@
-import { View, Text, Image, Button, Input, Picker } from '@tarojs/components'
-import { useLoad } from '@tarojs/taro'
-import './index.scss'
+import { useState } from 'react';
+import { View, Text, Image, Button, Input, Picker } from '@tarojs/components';
+import Taro, { useLoad } from '@tarojs/taro';
+import './index.scss';
 
 export default function UserDetail() {
-  const userInfo = {
-    avatar: '../../images/16.jpg',
-    nickName: '昵称',
-    gender: 0,
-    phone: '1234567890',
-    realName: '真实姓名',
-    idNumber: '身份证号',
-    level: 'A'
-  };
+  const [userInfo, setUserInfo] = useState({
+    avatar: '../../images/grey.png',
+    nickName: '',
+    gender: 2,
+    phone: '',
+    email: ''
+  });
 
   const genderOption = [
     { name: '男', value: 0 },
-    { name: '女', value: 1 }
+    { name: '女', value: 1 },
+    { name: '未知', value: 2},
   ];
 
   useLoad(() => {
-    console.log('Page loaded.')
-  })
+    console.log('Page loaded.');
+    const token = Taro.getStorageSync('token');
+    Taro.request({
+      url: 'https://9bh279vn9856.vicp.fun/api/user/getInfo',
+      method: 'POST',
+      header: { Authorization : token, },
+      success(response){
+        console.log('get info ok', response.data);
+        setUserInfo({ ...userInfo, 
+          avatar : response.data.result.avatar === '' ? '../../images/grey.png' : response.data.result.avatar,
+          nickName: response.data.result.nickname,
+          gender: response.data.result.gender,
+          phone: response.data.result.phone_number,
+          email: response.data.result.email
+        });
+      },
+      fail(err){console.log('Fail to get info', err);}
+    });
+  });
 
   const onChooseAvatar = (e) => {
-    console.log('Choose Avatar', e)
-  }
+    console.log("avatar: ", e);
+    setUserInfo({ ...userInfo, avatar : e.detail.avatarUrl });
+  };
 
-  const bindNicknameChange = (e) => {
-    console.log('Nickname Change', e.target.value)
-  }
+  const bindNicknameChange = e => {
+    setUserInfo({ ...userInfo, nickName: e.target.value });
+  };
 
-  const bindGenderChange = (e) => {
-    console.log('Gender Change', e.detail.value)
-  }
+  const bindGenderChange = e => {
+    setUserInfo({ ...userInfo, gender: parseInt(e.detail.value, 10) });
+  };
 
-  const bindPhoneChange = (e) => {
-    console.log('Phone Change', e.target.value)
-  }
+  const bindPhoneChange = e => {
+    setUserInfo({ ...userInfo, phone: e.target.value });
+  };
 
-  const bindRealNameChange = (e) => {
-    console.log('Real Name Change', e.target.value)
-  }
+  // const bindRealNameChange = e => {
+  //   setUserInfo({ ...userInfo, realName: e.target.value });
+  // };
 
-  const bindIdNumberChange = (e) => {
-    console.log('ID Number Change', e.target.value)
-  }
+  const bindEmailChange = e => {
+    setUserInfo({ ...userInfo, email: e.target.value });
+  };
 
-  const cancel = () => {
-    console.log('Cancel')
-  }
+  // const cancel = () => {
+  //   console.log('Cancel');
+  // };
 
   const submit = () => {
-    console.log('Submit')
-  }
+    console.log('Submit');
+    const token = Taro.getStorageSync('token');
+    Taro.request({
+      url: 'https://9bh279vn9856.vicp.fun/api/user/updateInfo',
+      method: 'POST',
+      header: { Authorization : token, },
+      data: { 
+        nickname: userInfo.nickName,
+        avatar: userInfo.avatar,
+        phone_number: userInfo.phone,
+        Email: userInfo.email,
+        Gender: userInfo.gender
+       },
+      success(response){
+        console.log('update info ok', response.data);
+      },
+      fail(err){console.log('Fail to update info', err);}
+    });
+  };
 
   return (
     <View className='container'>
@@ -74,18 +109,15 @@ export default function UserDetail() {
         <View className='title'>
           <View className='text'><Text style={{ color: '#F53F3F' }}>*</Text>性别：</View>
         </View>
-        <View className='input'>
-          <Picker
-            value={userInfo.gender}
-            range={genderOption}
-            rangeKey='name'
-            onChange={bindGenderChange}
-          >
-            <View className='picker weak'>{genderOption[userInfo.gender].name}</View>
-          </Picker>
-        </View>
+        <Picker
+          value={userInfo.gender}
+          range={genderOption}
+          rangeKey='name'
+          onChange={bindGenderChange}
+        >
+          <View className='picker'>{genderOption[userInfo.gender].name}</View>
+        </Picker>
       </View>
-      {userInfo.level === 'A' && (
         <>
           <View className='item'>
             <View className='title phone'>
@@ -98,7 +130,7 @@ export default function UserDetail() {
               type='number'
             />
           </View>
-          <View className='item'>
+          {/* <View className='item'>
             <View className='title'>
               <View className='text'>真实姓名：</View>
             </View>
@@ -108,25 +140,23 @@ export default function UserDetail() {
               className='input weak'
               type='text'
             />
-          </View>
+          </View> */}
           <View className='item'>
             <View className='title'>
-              <View className='text'>身份证号：</View>
+              <View className='text'>邮箱：</View>
             </View>
             <Input
-              onInput={bindIdNumberChange}
-              value={userInfo.idNumber}
+              onInput={bindEmailChange}
+              value={userInfo.email}
               className='input weak'
               type='idcard'
             />
           </View>
-          <View className='weak'>注：手机号、真实姓名、身份证号用于比赛信息快速录入</View>
         </>
-      )}
       <View className='option'>
-        <Button className='cancel' size='mini' onClick={cancel}>返回</Button>
+        {/* <Button className='cancel' size='mini' onClick={cancel}>返回</Button> */}
         <Button className='apply' size='mini' onClick={submit}>修改</Button>
       </View>
     </View>
-  )
+  );
 }

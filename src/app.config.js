@@ -14,7 +14,17 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
-  },
+  },"permission": {
+    "scope.userLocation": {
+        "desc": "您的位置信息将用于提供定位服务"
+    }
+},
+"requiredPrivateInfos": [
+    "getLocation"
+],
+"requiredBackgroundModes": [
+    "location"
+],
   tabBar:
   {
     color: '#1D2129',

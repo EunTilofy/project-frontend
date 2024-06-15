@@ -47,10 +47,10 @@
   }
 
   .card {
-      width: 90%;
+      width: 95vw;
       border-radius: 20rpx;
       background-color: #ffffff;
-      padding: 30rpx 0rpx;
+      padding: 20rpx 0rpx;
 
       .split-line {
           width: 90%;
@@ -60,15 +60,19 @@
       .item {
           display: flex;
           align-items: center;
-          padding-right: 40rpx;
-          padding-left: 40rpx;
+          padding-right: 60rpx;
+          padding-left: 60rpx;
           margin: 0 0 12rpx 0;
 
           .avatar {
-              width: 28rpx;
-              height: 28rpx;
+              width: 30rpx;
+              height: 30rpx;
               border-radius: 50%;
               margin-right: 13rpx;
+          }
+
+          .time {
+            width : 50vw
           }
 
           .icon {
@@ -190,13 +194,18 @@
       width: 100vw;
       position: fixed;
       top: 0;
+      left: 0;
       z-index: 2;
       background-color: rgba(25, 25, 25, 0.5);
   }
 
   .feedback-modal,
   .leave-modal {
-      top: 20vh;
+      top: 50vh;
+      left: 50vw;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      max-width: 650rpx;
       border-radius: 20rpx;
       background-color: #ffffff;
       padding: 30rpx 0rpx;
@@ -207,19 +216,26 @@
       align-items: center;
       justify-content: center;
 
+      .modal-header {
+        width : 80vw;
+        margin-left: 10vw;
+      };
+
       .input {
           background-color: #F2F3F5;
           border-radius: 10rpx;
           padding: 10rpx 30rpx;
           margin: 40rpx 60rpx 60rpx 60rpx;
-          width: 480rpx;
-          height: 300rpx;
+          width: 80vw;
+          max-width: 480rpx;
+          min-height: 300rpx;
           color: #86909C;
           font-size: 26rpx;
       }
 
       .button-group {
           display: flex;
+          justify-content: space-around;
 
           button {
               width: 200rpx;
@@ -231,4 +247,31 @@
           }
       }
   }
+}
+
+
+.admin-button {
+  background-color: red;
+  color: white;
+  padding: 4px 4px;
+  margin-left: 10rpx;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+// .admin-button:last-child {
+//   margin-right: 0;
+// }
+
+.attended-badge {
+  background-color: #4CAF50;
+  color: white;
+  padding: 4px 4px; 
+  border-radius: 10px;
+  font-size: 18px; 
+  display: inline-block;
+  text-align: center;
+  margin-left: 20rpx;
+  margin: 5px; 
 }
