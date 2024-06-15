@@ -165,7 +165,37 @@ export default function Attendance() {
   };
 
   const disapproveLeaveApply = (id) => {
-    // console.log(`Leave apply index: ${e.currentTarget.dataset.index}, approve: ${e.currentTarget.dataset.approve}`);
+    const token = Taro.getStorageSync('token');
+    Taro.request({
+      url: 'https://9bh279vn9856.vicp.fun/api/training/rejectLeave',
+      method: 'POST',
+      header: { Authorization: token },
+      data: {
+        participant_id: id
+      },
+      success(res) {
+        if(res.data.code === 0) {
+          Taro.showToast({
+            title: '已拒绝',
+            icon: 'success', 
+            duration: 1000
+          });
+          get();
+        } else {
+          Taro.showToast({
+            title: '操作失败',
+            icon: 'none', 
+            duration: 1000
+          });
+        }
+      }, fail(err) {
+        Taro.showToast({
+          title: '操作失败',
+          icon: 'none', 
+          duration: 1000
+        });
+      }
+    });
   };
 
   // const cancel = () => {

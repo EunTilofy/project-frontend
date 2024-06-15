@@ -20,7 +20,9 @@ export default function Manage() {
       header: { Authorization : token, },
       success(res) { console.log('apply list : ', res.data.result); 
       if (res.data.result)
-      setapplylist(res.data.result.filter(apply => apply.Status === 'pending')); }
+      setapplylist(res.data.result.filter(apply => apply.Status === 'pending')); 
+      else setapplylist([]);
+    }
     });
   };
 
@@ -32,7 +34,9 @@ export default function Manage() {
       header: { Authorization : token, },
       success(res) { console.log('member list : ', res.data); 
       if (res.data.result)
-      setuserlist(res.data.result); }
+      setuserlist(res.data.result.filter(user => user.role !== 'user')); 
+      else setuserlist([]);
+    }, fail(err) { setuserlist([]); }
     });
   };
 
@@ -71,6 +75,37 @@ export default function Manage() {
   }
 
   const disapproveMembershipApply = (e) => {
+    const token = Taro.getStorageSync('token');
+    Taro.request({
+      url: 'https://9bh279vn9856.vicp.fun/api/team/reject',
+      method: 'POST',
+      header: { Authorization : token, },
+      data: {apply_id : e},
+      success(res) {
+        if(res.data.code === 0) {
+          Taro.showToast({
+            title: '已拒绝',
+            icon: 'success', 
+            duration: 1000
+          });
+          getapply();
+        } else {
+          console.log(res.data);
+          Taro.showToast({
+            title: '操作失败',
+            icon: 'none', 
+            duration: 1000
+          });
+        }
+      }, fail(err) {
+        console.log(err);
+        Taro.showToast({
+          title: '操作失败',
+          icon: 'none', 
+          duration: 1000
+        });
+      }
+    });
   }
 
   useEffect(() => {
@@ -89,6 +124,8 @@ export default function Manage() {
   })
 
   const removemember = (userId) => {
+    const token = Taro.getStorageSync('token');
+    console.log(userId);
     Taro.showModal({
       title: '确认操作',
       content: '您确定要移除这名成员吗？',
@@ -97,8 +134,10 @@ export default function Manage() {
           Taro.request({
             url: 'https://9bh279vn9856.vicp.fun/api/team/kickOut',
             method: 'POST',
-            data: { userId },
+            header: { Authorization : token, },
+            data: { user_id : userId },
             success: (response) => {
+              console.log('remove member res: ', response);
               if (response.data.code === 0) {
                 Taro.showToast({
                   title: '成员已移除',
@@ -128,6 +167,7 @@ export default function Manage() {
   }
 
   const setasadmin = (userId) => {
+    const token = Taro.getStorageSync('token');
     Taro.showModal({
       title: '确认操作',
       content: '您确定要设置这名成员为管理员吗？',
@@ -136,8 +176,10 @@ export default function Manage() {
           Taro.request({
             url: 'https://9bh279vn9856.vicp.fun/api/team/grant',
             method: 'POST',
-            data: { userId },
+            data: { user_id : userId, role : 'admin' },
+            header: { Authorization : token, },
             success: (response) => {
+              console.log('set admin', response);
               if (response.data.code === 0) {
                 Taro.showToast({
                   title: '已设为管理员',
@@ -215,11 +257,11 @@ export default function Manage() {
                   <Button
                     className="admin-button"
                     style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
-                    onClick={() => removemember(user.userID)}
+                    onClick={() => removemember(user.id)}
                     >移除</Button>
                     <Button className="admin-button"
                             style={{ backgroundColor: 'red', color: 'white' }}
-                            onClick={() => setasadmin(user.userID)}
+                            onClick={() => setasadmin(user.id)}
                     >设为管理</Button>
             </View>
             </View>

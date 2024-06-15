@@ -83,11 +83,17 @@ export default function AddTraining() {
         {
           Taro.showToast({
             title: '添加训练成功',
-            icon: 'success', 
-            duration: 2000
+            icon: 'success',
+            duration: 2000,
+            complete: () => {
+              setTimeout(() => {
+                Taro.setStorageSync('needRefresh', true);
+                Taro.switchTab({
+                  url: '/pages/training/index'
+                });
+              }, 2000);
+            }
           });
-          Taro.setStorageSync('needRefresh', true);
-          Taro.switchTab({url: '/pages/training/index'});
         } else {
           Taro.showToast({
             title: '添加训练失败',
