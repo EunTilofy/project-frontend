@@ -19,9 +19,9 @@ export default function Center() {
   useLoad(() => {
     console.log('Page loaded.');
     const userR = (Taro.getStorageSync('userRole') === 0);
-    console.log(userR);
+    console.log("user Role : ", userR);
     if (userR) {
-      setisAdmin(userR);
+      setisAdmin(true);
     }
     const token = Taro.getStorageSync('token');
     Taro.request({

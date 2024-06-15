@@ -68,7 +68,7 @@ export default function Training() {
   useEffect(() => {
     const userRole = Taro.getStorageSync('userRole');
     setIsAdmin(userRole === 0);
-    console.log('isAdmin: ', userRole == 0);
+    console.log('isAdmin: ', userRole === 0);
     fetchTrainingList(pageNo, true);
 
     if (Taro.getStorageSync('needRefresh')) {

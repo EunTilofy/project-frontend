@@ -6,7 +6,7 @@ import './index.scss'
 
 export default function Manage() {
 
-  const [isAdmin, setisAdmin] = useState(0);
+  const [isAdmin, setisAdmin] = useState(false);
   const [applylist, setapplylist] = useState([]);
   const [userlist, setuserlist] = useState([
     // {nickname: 'User3', gender: 1, role: 'admin', userID: 'xxx'}
@@ -114,6 +114,21 @@ export default function Manage() {
     if (userR) {
       setisAdmin(userR);
     }
+    // const token = Taro.getStorageSync('token');
+    // Taro.request({
+    //   url: 'https://9bh279vn9856.vicp.fun/api/user/checkRole',
+    //   method: 'POST',
+    //   header: {
+    //     Authorization: token,
+    //   },
+
+    //   success(_) {
+    //     console.log('check user role success', _.data);
+    //     // Taro.setStorageSync('userRole', _.data.code);
+    //     setisAdmin(_.data.result.role === 'admin');
+    //   },
+    //   fail(err) { console.log('check user role failure', err); }
+    // });
   }, []);
 
   useLoad(() => {

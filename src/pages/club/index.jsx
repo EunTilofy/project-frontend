@@ -102,7 +102,7 @@ export default function Club() {
           <View className="weak">
             {leave.Training.Name}
             {leave.Status === 'leave_approval' && <View className="tag approved">已通过</View>}
-            {leave.Status === 'leave_rejected' && <View className="tag rejected">拒绝</View>}
+            {leave.Status !== 'leave_approval' && leave.Status !== 'leave_pending' && <View className="tag rejected">拒绝</View>}
             {leave.Status === 'leave_pending' && <View className="tag pending">申请中</View>}
           </View>
         </View>

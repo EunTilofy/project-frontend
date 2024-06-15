@@ -35,7 +35,7 @@ function App({ children }) {
 
                   success(_) {
                     console.log('check user role success', _.data);
-                    Taro.setStorageSync('userRole: ', _.data.code);
+                    Taro.setStorageSync('userRole', (_.data.result.role === 'admin' ? 0 : 1));
                   },
                   fail(err) { console.log('check user role failure', err); }
                 });

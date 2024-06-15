@@ -25,7 +25,7 @@ export default function DetailTraining() {
   const [LeaveModalVisible, setLeaveModalVisible] = useState(false);
   const [leaveText, setLeaveText] = useState([]);
   const [hasleave, setHasLeave] = useState(false);
-  const [hasqiandao, setHasqiandao] = useState(true);
+  const [hasqiandao, setHasqiandao] = useState(false);
 
   const getFeedback = () => {
     const token = Taro.getStorageSync('token');
@@ -125,6 +125,7 @@ export default function DetailTraining() {
           }
           if (registered && registered.Status === 'attended') {
             setHasqiandao(true);
+            console.log('has qian dao!!!');
           }
         }
       },
@@ -261,6 +262,7 @@ export default function DetailTraining() {
                 icon: 'success',
                 duration: 2000
               });
+              setHasqiandao(true);
             } else {
               Taro.showToast({
                 title: '签到失败: ' + response.data.message,
@@ -438,6 +440,7 @@ export default function DetailTraining() {
                     setHasLeave(true);
                   }
                   if (registered && registered.Status === 'attended') {
+                    console.log('has qian dao!!');
                     setHasqiandao(true);
                   }
                 }
@@ -649,7 +652,7 @@ export default function DetailTraining() {
         )}
         {currentTraining.status === 'processing' && hasregister !== -1 && hasqiandao === true &&  (
           <>
-            <Button className='cancel' size='mini' onClick={() => setqiandao()}>已签到</Button>
+            <Button className='cancel' size='mini' onClick={() => console.log('yiqiandao')}>已签到</Button>
           </>
         )}
       </View>
