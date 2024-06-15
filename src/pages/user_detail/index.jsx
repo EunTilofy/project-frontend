@@ -83,9 +83,26 @@ export default function UserDetail() {
         Gender: userInfo.gender
        },
       success(response){
-        console.log('update info ok', response.data);
-      },
-      fail(err){console.log('Fail to update info', err);}
+        if(response.data.code === 0) {
+        Taro.showToast({
+          title: '修改资料成功',
+          icon: 'success',
+          duration: 2000,
+        });}
+        // console.log('update info ok', response.data);
+        else {
+          Taro.showToast({
+            title: '修改失败',
+            icon: 'success',
+            duration: 2000,
+          });
+        }
+        },
+      fail(err){console.log('Fail to update info', err);Taro.showToast({
+        title: '修改个人资料失败，请稍后再试',
+        icon: 'success',
+        duration: 2000,
+      });}
     });
   };
 
