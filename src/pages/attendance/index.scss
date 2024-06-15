@@ -104,7 +104,7 @@
 }
 
 .container .item .card .apply-content .cancel {
-  width: 90rpx;
+  width: 150rpx;
   background-color: #F2F3F5;
   color: #4E5969;
   font-size: 24rpx;
@@ -112,7 +112,7 @@
 }
 
 .container .item .card .apply-content .apply {
-  width: 90rpx;
+  width: 150rpx;
   background-color: #165DFF;
   color: #FFFFFF;
   font-size: 24rpx;
@@ -165,8 +165,8 @@
   height: 80rpx;
   padding: 20rpx 40rpx 60rpx 40rpx;
   background-color: #FFFFFF;
-  position: fixed;
-  bottom: 0;
+  // position: fixed;
+  // bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,13 +182,13 @@
 }
 
 .container .option .cancel {
-  width: 240rpx;
+  width: 300rpx;
   background-color: #F2F3F5;
   color: #4E5969;
 }
 
 .container .option .apply {
-  width: 240rpx;
+  width: 300rpx;
   background-color: #165DFF;
   color: #FFFFFF;
 }

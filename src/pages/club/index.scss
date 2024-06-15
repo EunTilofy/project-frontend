@@ -50,3 +50,25 @@
   padding-left: 40rpx;
   margin: 0 0 12rpx 0;
 }
+
+.tag {
+  display: inline-block;
+  margin-left: 30px;
+  padding: 4px 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+.approved {
+  background-color: green;
+}
+
+.rejected {
+  background-color: red;
+}
+
+.pending {
+  background-color: orange;
+}
