@@ -5,39 +5,39 @@ import Taro from '@tarojs/taro'
 import './index.scss'
 
 export default function Attendance() {
-  const [attendanceOption, setAttendanceOption] = useState({
-    startDate: '2024-1-1',
-    endDate: '2024-1-2'
-  });
+  // const [attendanceOption, setAttendanceOption] = useState({
+  //   startDate: '2024-1-1',
+  //   endDate: '2024-1-2'
+  // });
   // const [leaveApplication, setLeaveApplication] = useState([]);
   // const [userList, setUserList] = useState([]);
-  const [collectStartTime, setCollectStartTime] = useState('');
-  const [collectEndTime, setCollectEndTime] = useState('');
+  // const [collectStartTime, setCollectStartTime] = useState('');
+  // const [collectEndTime, setCollectEndTime] = useState('');
 
-  const leaveApplication = [
-    {
-      userInfo: {
-        nickName: 'Name1',
-        gender: 0,
-      },
-      trainingInfo: {
-        title: 'Training 1',
-      },
-      reason: 'xxxxxxx',
-      time: '2024-06-10',
-    },
-    {
-      userInfo: {
-        nickName: 'Name2',
-        gender: 1,
-      },
-      trainingInfo: {
-        title: 'Training 1',
-      },
-      reason: 'xxxxxxx',
-      time: '2024-06-11',
-    }
-  ];
+  // const leaveApplication = [
+  //   {
+  //     userInfo: {
+  //       nickName: 'Name1',
+  //       gender: 0,
+  //     },
+  //     trainingInfo: {
+  //       title: 'Training 1',
+  //     },
+  //     reason: 'xxxxxxx',
+  //     time: '2024-06-10',
+  //   },
+  //   {
+  //     userInfo: {
+  //       nickName: 'Name2',
+  //       gender: 1,
+  //     },
+  //     trainingInfo: {
+  //       title: 'Training 1',
+  //     },
+  //     reason: 'xxxxxxx',
+  //     time: '2024-06-11',
+  //   }
+  // ];
 
   // const userList = [
   //   {
@@ -62,7 +62,6 @@ export default function Attendance() {
   // ];
 
   const [leavelist, setleavelist] = useState([]);
-
   const get = () => {
     const token = Taro.getStorageSync('token');
     Taro.request({
@@ -75,19 +74,28 @@ export default function Attendance() {
       },
       success(res) {
         console.log('Initial request response:', res.data);
-        if (res.data && Array.isArray(res.data.result)) {
+        if (res.data.result && Array.isArray(res.data.result)) {
           const trainingDetailsPromises = res.data.result.map(training => {
             return Taro.request({
               url: 'https://9bh279vn9856.vicp.fun/api/training/getLeaveList',
               method: 'POST',
               header: { Authorization: token },
               data: { training_id: training.ID }
-            }).then(response => ({
-              trainingName: training.Name, // 捕获当前培训的名称
-              leaves: response.data.result  // 假设结果是数组形式的请假记录
-            }));
+            }).then(response => {
+              if (response.data.result && Array.isArray(response.data.result)) {
+                return {
+                  trainingName: training.Name, // 捕获当前培训的名称
+                  leaves: response.data.result  // 有效数组的请假记录
+                };
+              } else {
+                return {
+                  trainingName: training.Name,
+                  leaves: []  // 如果结果不是数组，返回空数组
+                };
+              }
+            });
           });
-    
+  
           Promise.all(trainingDetailsPromises).then(detailsResponses => {
             const leaveList = detailsResponses.flatMap(detail => 
               detail.leaves.map(leave => ({
@@ -195,7 +203,7 @@ export default function Attendance() {
         <View className='title'>
           <View className='text'>请假申请：</View>
         </View>
-        {leavelist.map((apply, index) => (
+        { leavelist.length > 0 && (leavelist.map((apply, index) => (
           <View className='card' key={index}>
             <View className='apply-content weak'>
               <View className='name'>{apply.User.nickname}</View>
@@ -215,7 +223,7 @@ export default function Attendance() {
               <Button className='apply' size='mini' data-index={index} onClick={()=>approveLeaveApply(apply.ID)}>同意</Button>
             </View>
           </View>
-        ))}
+        )))}
         {leavelist.length <= 0 && (
           <View className='card' style={{ paddingLeft: '20rpx' }}>
             <View className='apply-content weak'>暂无</View>

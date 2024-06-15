@@ -88,7 +88,7 @@
               }
 
               .cancel {
-                  width: 90rpx;
+                  width: 150rpx;
                   background-color: #F2F3F5;
                   color: #4E5969;
                   font-size: 24rpx;
@@ -96,7 +96,7 @@
               }
 
               .apply {
-                  width: 90rpx;
+                  width: 150rpx;
                   background-color: #165DFF;
                   color: #FFFFFF;
                   font-size: 24rpx;
@@ -117,10 +117,12 @@
               }
 
               .tag {
-                  font-size: 24rpx;
+                  font-size: 22px;
+                  text-align: center;
                   padding: 5rpx 14rpx;
                   border-radius: 5rpx;
-                  margin-left: 18rpx;
+                  width: 100rpx;
+                  // margin-left: 18rpx;
                   background-color: #E8F3FF;
                   color: #165DFF;
               }
@@ -160,4 +162,14 @@
           color: #FFFFFF;
       }
   }
+}
+
+.admin-button {
+  background-color: red;
+  color: white;
+  padding: 4px 4px;
+  margin-left: 10rpx;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
 }
